@@ -7,6 +7,13 @@ API REST para gestionar **empleados, clientes y encargos** de *RefriPolar*, una 
 ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
 
+### 🔗 Demo en vivo
+
+**Swagger UI:** <https://refripolar-api.onrender.com/apirefripolar/>
+· **Ejemplo:** [`/data/empleados`](https://refripolar-api.onrender.com/apirefripolar/data/empleados)
+
+> La demo está alojada en el plan gratuito de Render (API) y Aiven (MySQL): si lleva un rato sin visitas, la primera petición puede tardar ~1 minuto en responder. Los datos son ficticios y pueden ser modificados por cualquiera desde Swagger.
+
 ## Stack
 
 | Capa | Tecnología |
@@ -75,6 +82,15 @@ erDiagram
     EMPLEADOS ||--o{ ENCARGOS : "es encargado de"
     ENCARGOS ||--o{ EMPLEADOS : "tiene asignados"
 ```
+
+## Despliegue
+
+La demo pública usa la misma imagen Docker que el entorno local:
+
+| Pieza | Servicio | Configuración |
+|-------|----------|---------------|
+| API | Render (Web Service, Docker) | Variables `DB_URL`, `DB_USER`, `DB_PASSWORD` y `JAVA_OPTS=-Xmx300m` |
+| Base de datos | Aiven for MySQL (plan gratuito) | Conexión con `sslMode=REQUIRED`; datos cargados desde `db/init/` |
 
 ## Estructura
 
