@@ -1,0 +1,22 @@
+# Maven
+target/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+nbproject/private/
+nbproject/
+build/
+dist/
+.settings/
+.project
+.classpath
+
+# Entorno
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

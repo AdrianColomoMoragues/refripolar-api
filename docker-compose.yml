@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.0
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    environment:
+      MYSQL_DATABASE: bdrefripolarv1
+      MYSQL_USER: ${DB_USER:-refripolar}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-refripolar}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    volumes:
+      # Los .sql de esta carpeta se ejecutan la primera vez que arranca el contenedor
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/bdrefripolarv1?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      DB_USER: ${DB_USER:-refripolar}
+      DB_PASSWORD: ${DB_PASSWORD:-refripolar}
+    ports:
+      - "8080:8080"
+
+volumes:
+  db-data:
